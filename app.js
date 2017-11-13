@@ -8,8 +8,9 @@ proxy.on('error', function(e) {
 });
 
 const ports = {
+  ez: 3001,
   test: 3000,
-  test2: 3000
+  test2: 4000
 }
 
 http.createServer(function(req, res) {
