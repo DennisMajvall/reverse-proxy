@@ -8,8 +8,8 @@ proxy.on('error', function(e) {
 });
 
 const ports = {
-  ez: 3001,
-  test: 3000,
+  ez: 3000,
+  test: 3001,
   test2: 4000
 }
 
