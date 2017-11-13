@@ -7,11 +7,30 @@ proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
 });
 
+const ports = {
+  test: 3000,
+  test2: 3000
+}
+
 http.createServer(function(req, res) {
-  const host = req.headers.host;
-  res.write(host + req.url);
-  res.end();
-  // proxy.web(req, res, { target: 'http://mytarget.com:8080' });
+  const host = req.headers.host; // test.majvall.se/index
+  const domains = host.split('.');
+
+  const topDomain = domains.pop(); // se
+  const domain = domains.pop(); // majvall
+  const subDomain = domains.join('.'); // test
+
+  const pathname = req.url; // index
+
+  const port = port[subDomain];
+
+  if (!port) {
+    res.statusCode = 500;
+    res.end('Wrong sub-domain. ' + subDomain);
+    return;
+  }
+
+  proxy.web(req, res, { target: '127.0.0.1:' + port });
 }).listen(80, ()=>{
   console.log('Proxy listening on port 80');
 });
