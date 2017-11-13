@@ -14,10 +14,10 @@ proxy.on('error', function(e) {
 });
 
 function setResponseHeaders(res){
-  res.oldWriteHead = res.writeHead;
+  const oldWriteHead = res.writeHead.bind(res);
   res.writeHead = (statusCode, headers)=>{
     res.setHeader('x-powered-by', 'majvall');
-    res.oldWriteHead(statusCode, headers);
+    oldWriteHead(statusCode, headers);
   };
 }
 
