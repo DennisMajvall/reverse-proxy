@@ -31,7 +31,7 @@ http.createServer(function(req, res) {
     return;
   }
 
-  proxy.web(req, res, { target: '127.0.0.1:' + port });
+  proxy.web(req, res, { target: 'http://127.0.0.1:' + port });
 }).listen(80, ()=>{
   console.log('Proxy listening on port 80');
 });
