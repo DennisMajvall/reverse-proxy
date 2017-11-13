@@ -8,6 +8,7 @@ proxy.on('error', function(e) {
 });
 
 const ports = {
+  www: 3000,
   test: 3000,
   test2: 3000
 }
