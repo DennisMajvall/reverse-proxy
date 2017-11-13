@@ -8,7 +8,6 @@ proxy.on('error', function(e) {
 });
 
 const ports = {
-  www: 3000,
   test: 3000,
   test2: 3000
 }
@@ -16,6 +15,7 @@ const ports = {
 http.createServer(function(req, res) {
   const host = req.headers.host; // test.majvall.se/index
   const domains = host.split('.');
+  if (domains[0] == 'www') { domains.shift(1); }
 
   const topDomain = domains.pop(); // se
   const domain = domains.pop(); // majvall
