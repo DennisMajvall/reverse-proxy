@@ -13,7 +13,7 @@ proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
 });
 
-setResponseHeaders(res){
+function setResponseHeaders(res){
   const oldWriteHead = res.writeHead;
   res.writeHead = (statusCode, headers)=>{
     res.setHeader('x-powered-by', 'majvall');
