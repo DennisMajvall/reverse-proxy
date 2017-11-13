@@ -3,11 +3,17 @@ const httpProxy = require('http-proxy');
 
 const proxy = httpProxy.createProxyServer({});
 
+const ports = {
+  ez: 3000,
+  test: 3001,
+  test2: 4000
+}
+
 proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
 });
 
-setResHeaders(req, res){
+setResponseHeaders(res){
   const oldWriteHead = res.writeHead;
   res.writeHead = (statusCode, headers)=>{
     res.setHeader('x-powered-by', 'majvall');
@@ -15,13 +21,9 @@ setResHeaders(req, res){
   };
 }
 
-const ports = {
-  ez: 3000,
-  test: 3001,
-  test2: 4000
-}
-
 http.createServer(function(req, res) {
+  setResponseHeaders(res);
+
   const host = req.headers.host; // test.majvall.se/index
   const domains = host.split('.');
   if (domains[0] == 'www') { domains.shift(1); }
