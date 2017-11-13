@@ -22,7 +22,7 @@ function setResponseHeaders(res){
 }
 
 http.createServer(function(req, res) {
-  setResponseHeaders(res);
+  // setResponseHeaders(res);
 
   const host = req.headers.host; // test.majvall.se/index
   const domains = host.split('.');
