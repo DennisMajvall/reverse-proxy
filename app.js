@@ -23,7 +23,7 @@ http.createServer(function(req, res) {
 
   const pathname = req.url; // index
 
-  const port = port[subDomain];
+  const port = ports[subDomain];
 
   if (!port) {
     res.statusCode = 500;
