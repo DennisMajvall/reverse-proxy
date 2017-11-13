@@ -8,7 +8,8 @@ proxy.on('error', function(e) {
 });
 
 http.createServer(function(req, res) {
-  res.write(req.url);
+  const host = req.headers.host;
+  res.write(host + req.url);
   res.end();
   // proxy.web(req, res, { target: 'http://mytarget.com:8080' });
 }).listen(80, ()=>{
