@@ -7,6 +7,14 @@ proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
 });
 
+setResHeaders(req, res){
+  const oldWriteHead = res.writeHead;
+  res.writeHead = (statusCode, headers)=>{
+    res.setHeader('x-powered-by', 'majvall');
+    oldWriteHead(statusCode, headers);
+  };
+}
+
 const ports = {
   ez: 3000,
   test: 3001,
