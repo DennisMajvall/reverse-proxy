@@ -1,6 +1,8 @@
 process.chdir(__dirname);
 const http = require('http');
 const httpProxy = require('http-proxy');
+const tls = require('tls');
+const fs = require('fs');
 
 const proxy = httpProxy.createProxyServer({});
 
@@ -11,6 +13,10 @@ const ports = {
 }
 
 const certBotPort = 5000;
+const certPath = '/etc/letsencrypt/live'
+
+let certs = readCerts();
+console.log(certs);
 
 proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
@@ -56,3 +62,22 @@ http.createServer(function(req, res) {
 }).listen(80, ()=>{
   console.log('Proxy listening on port 80');
 });
+
+
+function readCerts() {
+  let certs = {},
+      domains = fs.readdirSync(certPath);
+
+  // REAL ALL SSL CERTS INTO MEMORY FROM FILE
+  for (let domain of domains) {
+    let domainName = domain.split('-0')[0];
+    certs[domainName] = {
+      key: fs.readFileSync(path.join(certPath,domain,'privkey.pem')),
+      cert: fs.readFileSync(path.join(certPath,domain,'fullchain.pem'))
+    };
+
+    certs[domainName].secureContext = tls.createSecureContext(certs[domainName]);
+  }
+
+  return certs;
+}
