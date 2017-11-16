@@ -3,6 +3,7 @@ const http = require('http');
 const httpProxy = require('http-proxy');
 const tls = require('tls');
 const fs = require('fs');
+const path = require('path');
 
 const proxy = httpProxy.createProxyServer({});
 
