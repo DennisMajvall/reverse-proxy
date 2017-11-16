@@ -70,8 +70,10 @@ http.createServer((req, res)=>{
     proxy.web(req, res, { target: 'http://127.0.0.1:' + certBotPort });
     return;
   }
-  console.log('redirecting to', req.headers.host + req.url);
-  res.writeHead(301, { 'Location': 'https://' + req.headers.host + req.url });
+
+  const url = 'https://' + req.headers.host + req.url;
+  console.log('redirecting to', url);
+  res.writeHead(301, {'Location': url});
   res.end;
 }).listen(80, ()=>{
   console.log('Proxy listening on port 80');
