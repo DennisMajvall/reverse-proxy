@@ -44,7 +44,7 @@ https.createServer({
 
   const host = req.headers.host; // test.majvall.se/index
   const domains = host.split('.');
-
+  console.log('wtf', domains);
   if (domains[0] == 'www') {
 
     console.log('it is www', domains);
