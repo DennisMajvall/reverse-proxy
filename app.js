@@ -51,12 +51,12 @@ https.createServer({
 
     let url = domains.slice(1).join('.') + req.url;
   //   url = 'hej.majvall.se';
-  //   res.writeHead(301, {'Location': url});
+    res.writeHead(301, {'Location': url});
 
     console.log('removing www, result:', url);
 
-  //   res.end();
-  //   return;
+    res.end();
+    return;
 
   // } else {
   //   console.log('it is not www', domains);
