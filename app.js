@@ -46,7 +46,8 @@ https.createServer({
   const domains = host.split('.');
   if (domains[0] == 'www') {
     console.log('it is www', domains);
-    const url = domains.slice(1).join('.') + req.url;
+    let url = domains.slice(1);
+    url = url.join('.') + req.url;
     res.writeHead(301, {'Location': url});
     console.log('removing www, result:', url);
     res.end();
