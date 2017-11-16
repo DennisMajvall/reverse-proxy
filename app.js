@@ -45,10 +45,14 @@ https.createServer({
   const host = req.headers.host; // test.majvall.se/index
   const domains = host.split('.');
   if (domains[0] == 'www') {
+    console.log('it is www', domains);
     const url = domains.slice(1).join('.') + req.url;
     res.writeHead(301, {'Location': url});
+    console.log('removing www, result:', url);
     res.end();
     return;
+  } else {
+    console.log('it is not www', domains);
   }
 
   const topDomain = domains.pop(); // se
