@@ -74,7 +74,7 @@ http.createServer((req, res)=>{
   const url = 'https://' + req.headers.host + req.url;
   console.log('redirecting to', url);
   res.writeHead(301, {'Location': url});
-  res.end;
+  res.end();
 }).listen(80, ()=>{
   console.log('Proxy listening on port 80');
 });
