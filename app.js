@@ -49,7 +49,7 @@ https.createServer({
 
     console.log('it is www', domains);
 
-    let url = domains.slice(1).join('.') + req.url;
+    let url = 'https://' + domains.slice(1).join('.') + req.url;
   //   url = 'hej.majvall.se';
     res.writeHead(301, {'Location': url});
 
