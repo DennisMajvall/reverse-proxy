@@ -36,7 +36,7 @@ http.createServer(function(req, res) {
   const subDomain = domains.join('.'); // test
 
   const pathname = req.url; // index
-  console.log(pathname);
+
 
   let port = false;
 
