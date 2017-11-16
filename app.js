@@ -5,6 +5,7 @@ const httpProxy = require('http-proxy');
 const tls = require('tls');
 const fs = require('fs');
 const path = require('path');
+const exec = require('child_process').exec;
 
 const proxy = httpProxy.createProxyServer({});
 
@@ -66,13 +67,11 @@ https.createServer({
 
 http.createServer((req, res)=>{
   if (req.url.indexOf('/.well-known') == 0){
-    console.log('getting cert for', req.headers.host);
     proxy.web(req, res, { target: 'http://127.0.0.1:' + certBotPort });
     return;
   }
 
   const url = 'https://' + req.headers.host + req.url;
-  console.log('redirecting to', url);
   res.writeHead(301, {'Location': url});
   res.end();
 }).listen(80, ()=>{
@@ -97,3 +96,13 @@ function readCerts() {
 
   return certs;
 }
+
+function renewCerts(){
+  exec('certbot renew', (err, stdOut, stdErr)=>{
+    console.log('renewing certs', stdOut);
+    certs = readCerts();
+  });
+}
+
+renewCerts();
+setInterval(renewCerts, 24*60*60*1000);
