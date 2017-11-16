@@ -44,7 +44,12 @@ https.createServer({
 
   const host = req.headers.host; // test.majvall.se/index
   const domains = host.split('.');
-  if (domains[0] == 'www') { domains.shift(1); }
+  if (domains[0] == 'www') {
+    const url = domains.slice(1).join('.') + req.url;
+    res.writeHead(301, {'Location': url});
+    res.end();
+    return;
+  }
 
   const topDomain = domains.pop(); // se
   const domain = domains.pop(); // majvall
