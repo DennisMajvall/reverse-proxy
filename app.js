@@ -43,23 +43,13 @@ https.createServer({
   setResponseHeaders(res);
 
   const host = req.headers.host; // test.majvall.se/index
-  const domains = host.split('.');
-  // console.log('wtf', domains);
+  const domains = host.split('.'); // [ 'test', 'majvall', 'se' ]
+
   if (domains[0] == 'www') {
-
-    console.log('it is www', domains);
-
     let url = 'https://' + domains.slice(1).join('.') + req.url;
-  //   url = 'hej.majvall.se';
     res.writeHead(301, {'Location': url});
-
-    console.log('removing www, result:', url);
-
     res.end();
     return;
-
-  // } else {
-  //   console.log('it is not www', domains);
   }
 
   const topDomain = domains.pop(); // se
@@ -115,10 +105,11 @@ function readCerts() {
 
 function renewCerts(){
   exec('certbot renew', (err, stdOut, stdErr)=>{
-    console.log('renewing certs', stdOut);
+    console.log('renewing certs');//, stdOut);
     certs = readCerts();
   });
 }
 
-// renewCerts();
+renewCerts();
 setInterval(renewCerts, 24*60*60*1000);
+// certbot certonly --webroot -w /var/www/html -d test.majvall.se
