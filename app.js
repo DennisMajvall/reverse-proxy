@@ -19,7 +19,6 @@ const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live'
 
 let certs = readCerts();
-console.log(certs);
 
 proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
@@ -50,11 +49,11 @@ https.createServer({
 
     console.log('it is www', domains);
 
-  //   let url = domains.slice(1).join('.') + req.url;
+    let url = domains.slice(1).join('.') + req.url;
   //   url = 'hej.majvall.se';
   //   res.writeHead(301, {'Location': url});
 
-  //   console.log('removing www, result:', url);
+    console.log('removing www, result:', url);
 
   //   res.end();
   //   return;
