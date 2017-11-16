@@ -33,7 +33,7 @@ function setResponseHeaders(res){
 
 https.createServer({
   SNICallback: (domain, cb) => cb(
-    (certs[domain] ? null : new Error("No such cert"),
+    (certs[domain] ? null : new Error("No such cert")),
     (certs[domain] ? certs[domain].secureContext : null)
   ),
   key: certs['test.majvall.se'].key,
