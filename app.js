@@ -40,7 +40,7 @@ http.createServer(function(req, res) {
 
   let port = false;
 
-  if (pathname.indexOf('.well-known') == 0){
+  if (pathname.indexOf('/.well-known') == 0){
     port = certBotPort;
   }
 
