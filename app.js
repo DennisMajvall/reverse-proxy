@@ -1,3 +1,4 @@
+process.chdir(__dirname);
 const http = require('http');
 const httpProxy = require('http-proxy');
 
@@ -8,6 +9,8 @@ const ports = {
   test: 3001,
   test2: 4000
 }
+
+const certBotPort = 5000;
 
 proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
@@ -33,8 +36,15 @@ http.createServer(function(req, res) {
   const subDomain = domains.join('.'); // test
 
   const pathname = req.url; // index
+  console.log(pathname);
 
-  const port = ports[subDomain];
+  let port = false;
+
+  if (pathname.indexOf('.well-known') == 0){
+    port = certBotPort;
+  }
+
+  !port && (port = ports[subDomain]);
 
   if (!port) {
     res.statusCode = 500;
