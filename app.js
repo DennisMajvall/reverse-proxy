@@ -1,5 +1,6 @@
 process.chdir(__dirname);
 const http = require('http');
+const https = require('https');
 const httpProxy = require('http-proxy');
 const tls = require('tls');
 const fs = require('fs');
@@ -31,7 +32,11 @@ function setResponseHeaders(res){
   };
 }
 
-http.createServer(function(req, res) {
+https.createServer({
+  SNICallback: (domain, cb) => cb(null, certs[domain].secureContext),
+  key: certs['test.majvall.se'].key,
+  cert: certs['test.majvall.se'].cert
+}, (req, res)=>{
   setResponseHeaders(res);
 
   const host = req.headers.host; // test.majvall.se/index
@@ -60,8 +65,8 @@ http.createServer(function(req, res) {
   }
 
   proxy.web(req, res, { target: 'http://127.0.0.1:' + port });
-}).listen(80, ()=>{
-  console.log('Proxy listening on port 80');
+}).listen(443, ()=>{
+  console.log('Proxy listening on port 443');
 });
 
 
