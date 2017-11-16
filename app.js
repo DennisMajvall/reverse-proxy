@@ -46,12 +46,18 @@ https.createServer({
   const domains = host.split('.');
 
   if (domains[0] == 'www') {
+
     console.log('it is www', domains);
+
     let url = domains.slice(1).join('.') + req.url;
+    url = 'hej.majvall.se';
     res.writeHead(301, {'Location': url});
+
     console.log('removing www, result:', url);
+
     res.end();
     return;
+
   } else {
     console.log('it is not www', domains);
   }
