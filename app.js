@@ -19,6 +19,7 @@ const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live'
 
 let certs = readCerts();
+console.log(certs);
 
 proxy.on('error', function(e) {
   console.log('___Proxy error___', e);
