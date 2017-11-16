@@ -47,28 +47,32 @@ https.createServer({
 
   const topDomain = domains.pop(); // se
   const domain = domains.pop(); // majvall
-  const subDomain = domains.join('.'); // test
+  const subdomain = domains.join('.'); // test
 
   const pathname = req.url; // index
 
-
-  let port = false;
-
-  if (pathname.indexOf('/.well-known') == 0){
-    port = certBotPort;
-  }
-
-  !port && (port = ports[subDomain]);
+  let port = ports[subdomain];
 
   if (!port) {
-    res.statusCode = 500;
-    res.end('Wrong sub-domain. ' + subDomain);
+    res.statusCode = 404;
+    res.end('Wrong subdomain. ' + subdomain);
     return;
   }
 
   proxy.web(req, res, { target: 'http://127.0.0.1:' + port });
 }).listen(443, ()=>{
   console.log('Proxy listening on port 443');
+});
+
+http.createServer((req, res)=>{
+  if (req.url.indexOf('/.well-known') == 0){
+    proxy.web(req, res, { target: 'http://127.0.0.1:' + certBotPort });
+    return;
+  }
+  res.writeHead(301, { Location: 'https://' + req.headers.host + req.url });
+  res.end;
+}).listen(80, ()=>{
+  console.log('Proxy listening on port 80');
 });
 
 
