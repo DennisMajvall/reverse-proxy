@@ -114,5 +114,5 @@ function renewCerts(){
   });
 }
 
-renewCerts();
+// renewCerts();
 setInterval(renewCerts, 24*60*60*1000);
