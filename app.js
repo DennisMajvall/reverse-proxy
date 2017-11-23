@@ -28,6 +28,12 @@ function setResponseHeaders(res){
   const oldWriteHead = res.writeHead.bind(res);
   res.writeHead = (statusCode, headers)=>{
     res.setHeader('x-powered-by', 'majvall');
+    res.setHeader('strict-transport-security','max-age=31536000; includeSubDomains; preload');
+    res.setHeader('x-frame-options','SAMEORIGIN');
+    res.setHeader('x-xss-protection', '1');
+    res.setHeader('x-content-type-options','nosniff');
+    // Lägg bara till unsafe-inline och unsafe-eval om ni behöver et
+    res.setHeader('content-security-policy',"default-src * 'unsafe-inline' 'unsafe-eval'");
     oldWriteHead(statusCode, headers);
   };
 }
