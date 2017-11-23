@@ -12,7 +12,8 @@ const proxy = httpProxy.createProxyServer({});
 const ports = {
   ez: 3000,
   test: 3001,
-  test2: 4000
+  test2: 4000,
+  test3: 4000
 }
 
 const certBotPort = 5000;
