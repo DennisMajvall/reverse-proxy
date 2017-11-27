@@ -40,6 +40,9 @@ https.createServer({
     }
   }
 
+  console.log('a', host, url);
+  console.log('b', port);
+
   if (!port) {
 
     res.statusCode = 404;

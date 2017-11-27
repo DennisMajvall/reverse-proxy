@@ -2,7 +2,7 @@
   "ez.majvall.se": 3000,
   "test.majvall.se": 3001,
   "www.test.majvall.se": {
-    "redirect": "test.majvall.se"
+    "redirect": "test.majvall.se/yup"
   },
   "test2.majvall.se": 4000,
   "test2.majvall.se/hejsan": 3001,
