@@ -35,7 +35,7 @@ https.createServer({
     r.includes('/') && (r += url.substr(-1) != '/' ? '/' : '');
 
     if (r == host) { port = val; }
-    else if (route.indexOf(host + url) == 0){ port = val }
+    else if (r.indexOf(host + url) == 0){ port = val }
   }
 
   console.log('a', host, url);
