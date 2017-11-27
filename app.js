@@ -66,7 +66,7 @@ http.createServer((req, res)=>{
 
 function getRouteFromJSON(req){
   let portToUse;
-  const host = req.headers.host; // test.majvall.se
+  const host = req.headers.host;
   let url = req.url + (req.url.substr(-1) != '/' ? '/' : '')
 
   for(let route in routes){
