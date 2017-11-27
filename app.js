@@ -29,15 +29,13 @@ https.createServer({
   const host = req.headers.host; // test.majvall.se
   let url = req.url + (req.url.substr(-1) != '/' ? '/' : '')
 
-  let port = routes[host];
-  if (!port) {
-    for (let r in routes) {
-      let val = routes[r];
-      r.includes('/') && (r += url.substr(-1) != '/' ? '/' : '');
+  let port;
+  for (let r in routes) {
+    let val = routes[r];
+    r.includes('/') && (r += url.substr(-1) != '/' ? '/' : '');
 
-      if (r == host) { port = val; }
-      else if (route.indexOf(host + url) == 0){ port = val }
-    }
+    if (r == host) { port = val; }
+    else if (route.indexOf(host + url) == 0){ port = val }
   }
 
   console.log('a', host, url);
