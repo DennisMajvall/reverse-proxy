@@ -25,36 +25,25 @@ https.createServer({
 }, (req, res)=>{
   setResponseHeaders(res);
 
-  const host = req.headers.host; // test.majvall.se
-  let url = req.url + (req.url.substr(-1) != '/' ? '/' : '')
+  let portToUse = getRouteFromJSON();
 
-  let port;
-  for (let r in routes) {
-    let val = routes[r];
-    r.includes('/') && (r += url.substr(-1) != '/' ? '/' : '');
-
-    if (r == host) { port = val; }
-    else if (url != '/' && r.indexOf(host + url) == 0){ port = val }
-  }
-
-  console.log('a', host, 'b', url, 'result:', port);
-
-  if (!port) {
-
+  if (!portToUse) {
     res.statusCode = 404;
     res.end('Wrong subdomain: ' + subdomain);
-
-  } else if (typeof port == 'number'){
-
-    proxy.web(req, res, { target: 'http://127.0.0.1:' + port });
-
-  } else if (port.redirect){
-
-    let url = 'https://' + port.redirect + req.url;
+  }
+  else if (typeof portToUse == 'string'){
+    // proxy.web(req,res,{target: {host:'ip.addr.here',port:80}});
+    proxy.web(req, res, { target: portToUse });
+  }
+  else if (typeof portToUse == 'number'){
+    proxy.web(req, res, { target: 'http://127.0.0.1:' + portToUse });
+  }
+  else if (portToUse.redirect){
+    let url = 'https://' + portToUse.redirect + req.url;
     res.writeHead(301, {'Location': url});
     res.end();
-
-  } else {
+  }
+  else {
     res.send('Error in routing');
   }
 
@@ -74,6 +63,22 @@ http.createServer((req, res)=>{
 }).listen(80, ()=>{
   console.log('Proxy listening on port 80');
 });
+
+function getRouteFromJSON(){
+  let portToUse;
+  const host = req.headers.host; // test.majvall.se
+  let url = req.url + (req.url.substr(-1) != '/' ? '/' : '')
+
+  for(let route in routes){
+    let port = routes[route];
+    if(route.includes('/')){ route += (route.substr(-1) != '/' ? '/' : '') }
+
+    if(route == host){ portToUse = port; }
+    else if (url != '/' && route.indexOf(host + url) == 0){ portToUse = port; }
+  }
+  console.log('a', host, 'b', url, 'result:', portToUse);
+  return portToUse;
+}
 
 function setResponseHeaders(res){
   const oldWriteHead = res.writeHead.bind(res);
