@@ -5,15 +5,14 @@ const http = require('http'),
   tls = require('tls'),
   fs = require('fs'),
   path = require('path'),
-  exec = require('child_process').exec;
+  exec = require('child_process').exec,
+  routes = require('./routes.json');
 
 const proxy = httpProxy.createProxyServer({});
 proxy.on('error', function(e) { console.log('___Proxy error___', e); });
 
 const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live';
-
-const routes = require('./routes.json');
 let certs = readCerts();
 
 https.createServer({
@@ -35,11 +34,10 @@ https.createServer({
     r.includes('/') && (r += url.substr(-1) != '/' ? '/' : '');
 
     if (r == host) { port = val; }
-    else if (r.indexOf(host + url) == 0){ port = val }
+    else if (url != '/' && r.indexOf(host + url) == 0){ port = val }
   }
 
-  console.log('a', host, url);
-  console.log('b', port);
+  console.log('a', host, 'b', url, 'result:', port);
 
   if (!port) {
 
