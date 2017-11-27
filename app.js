@@ -27,7 +27,7 @@ https.createServer({
   setResponseHeaders(res);
 
   const host = req.headers.host; // test.majvall.se
-  let url = req.url + (url.substr(-1) != '/' ? '/' : '')
+  let url = req.url + (req.url.substr(-1) != '/' ? '/' : '')
 
   let port = routes[host];
   if (!port) {
