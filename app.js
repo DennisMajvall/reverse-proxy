@@ -76,7 +76,6 @@ function getRouteFromJSON(req){
     if(route == host){ portToUse = port; }
     else if (url != '/' && route.indexOf(host + url) == 0){ portToUse = port; }
   }
-  console.log('a', host, 'b', url, 'result:', portToUse);
   return portToUse;
 }
 

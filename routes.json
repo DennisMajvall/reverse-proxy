@@ -1,10 +1,10 @@
 {
-  "ez-game.majvall.se": 3000,
-  "test.majvall.se": 3001,
-  "www.test.majvall.se": {
-    "redirect": "test.majvall.se/yup"
+  "test3000.majvall.se": 3000,
+  "test3001.majvall.se": 3001,
+  "www.test3001.majvall.se": {
+    "redirect": "test3001.majvall.se/yup"
   },
-  "test2.majvall.se": 4000,
-  "test2.majvall.se/hejsan": 3001,
-  "test3.majvall.se": 4000
+  "test4000.majvall.se": 4000,
+  "test3001.majvall.se/hejsan": 3001,
+  "test5000.majvall.se": 5000
 }
