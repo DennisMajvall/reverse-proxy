@@ -25,7 +25,7 @@ https.createServer({
 }, (req, res)=>{
   setResponseHeaders(res);
 
-  let portToUse = getRouteFromJSON();
+  let portToUse = getRouteFromJSON(req);
 
   if (!portToUse) {
     res.statusCode = 404;
@@ -64,7 +64,7 @@ http.createServer((req, res)=>{
   console.log('Proxy listening on port 80');
 });
 
-function getRouteFromJSON(){
+function getRouteFromJSON(req){
   let portToUse;
   const host = req.headers.host; // test.majvall.se
   let url = req.url + (req.url.substr(-1) != '/' ? '/' : '')
