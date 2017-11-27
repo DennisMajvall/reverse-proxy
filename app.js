@@ -13,7 +13,7 @@ proxy.on('error', function(e) { console.log('___Proxy error___', e); });
 const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live';
 
-const routes = require('routes.json');
+const routes = require('./routes.json');
 let certs = readCerts();
 
 https.createServer({
@@ -33,7 +33,7 @@ https.createServer({
   if (!port) {
     for (let r in routes) {
       let val = routes[r];
-      r.includes('/') && (r += req.url + (url.substr(-1) != '/' ? '/' : ''));
+      r.includes('/') && (r += url.substr(-1) != '/' ? '/' : '');
 
       if (r == host) { port = val; }
       else if (route.indexOf(host + url) == 0){
