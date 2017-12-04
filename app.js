@@ -29,7 +29,7 @@ https.createServer({
 
   if (!portToUse) {
     res.statusCode = 404;
-    res.end('Wrong subdomain: ' + subdomain);
+    res.end('Wrong subdomain: ' + req.headers.host);
   }
   else if (typeof portToUse == 'string'){
     // proxy.web(req,res,{target: {host:'ip.addr.here',port:80}});
