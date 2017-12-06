@@ -6,5 +6,8 @@
   },
   "test4000.majvall.se": 4000,
   "test3001.majvall.se/hejsan": 3001,
-  "test5001.majvall.se": 5001
+  "test5001.majvall.se": 5001,
+  "majvall.com": {
+    "redirect": "test4000.majvall.se"
+  },
 }
