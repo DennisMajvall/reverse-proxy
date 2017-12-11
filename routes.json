@@ -1,5 +1,6 @@
 {
   "test3000.majvall.se": 3000,
+  "magnets.majvall.se": 46375,
   "test3001.majvall.se": 3001,
   "www.test3001.majvall.se": {
     "redirect": "test3001.majvall.se/yup"
