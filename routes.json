@@ -1,10 +1,14 @@
 {
   "test3000.majvall.se": 3000,
+  "magnets.majvall.se": 46375,
   "test3001.majvall.se": 3001,
   "www.test3001.majvall.se": {
     "redirect": "test3001.majvall.se/yup"
   },
   "test4000.majvall.se": 4000,
   "test3001.majvall.se/hejsan": 3001,
-  "test5001.majvall.se": 5001
+  "test5001.majvall.se": 5001,
+  "majvall.com": {
+    "redirect": "test4000.majvall.se"
+  }
 }
