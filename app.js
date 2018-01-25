@@ -12,6 +12,8 @@ const http = require('http'),
 const proxy = httpProxy.createProxyServer({});
 proxy.on('error', function(e) { console.log('___Proxy error___', e); });
 
+const httpPort = 10080; // (80 forward-rule)
+const httpsPort = 10443; // (443 forward-rule)
 const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live';
 // let certs = readCerts();
@@ -48,8 +50,8 @@ const certPath = '/etc/letsencrypt/live';
 //     res.send('Error in routing');
 //   }
 
-// }).listen(443, ()=>{
-//   console.log('Proxy listening on port 443');
+// }).listen(httpsPort, ()=>{
+  // console.log(`Proxy listening on port 443 (${httpsPort})`);
 // });
 
 http.createServer((req, res)=>{
@@ -61,8 +63,8 @@ http.createServer((req, res)=>{
   const url = 'https://' + req.headers.host + req.url;
   res.writeHead(301, {'Location': url});
   res.end();
-}).listen(80, ()=>{
-  console.log('Proxy listening on port 80');
+}).listen(httpPort, ()=>{
+  console.log(`Proxy listening on port 80 (${httpPort})`);
 });
 
 function getRouteFromJSON(req){
@@ -129,3 +131,10 @@ function renewCerts(){
 // renewCerts();
 // setInterval(renewCerts, 24*60*60*1000);
 // certbot certonly --webroot -w /var/www/html -d test.majvall.se
+
+// Error: listen EACCES 0.0.0.0:80 (non-root may not use ports <= 1024)
+// Solution:
+// sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 10080
+// sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 10443
+// also add these to: /etc/rc.local (no need for sudo while inside of that file)
+// to delete a rule change -A to -D
