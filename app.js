@@ -12,8 +12,8 @@ const http = require('http'),
 const proxy = httpProxy.createProxyServer({});
 proxy.on('error', function(e) { console.log('___Proxy error___', e); });
 
-const httpPort = 10080; // (80 forward-rule)
-const httpsPort = 10443; // (443 forward-rule)
+const httpPort = 80; // (80 forward-rule)
+const httpsPort = 443; // (443 forward-rule)
 const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live';
 // let certs = readCerts();
@@ -55,6 +55,7 @@ const certPath = '/etc/letsencrypt/live';
 // });
 
 http.createServer((req, res)=>{
+  console.log('request gotten', req.headers.host, req.url);
   if (req.url.indexOf('/.well-known') == 0){
     proxy.web(req, res, { target: 'http://127.0.0.1:' + certBotPort });
     return;
@@ -100,7 +101,7 @@ function setResponseHeaders(res){
 
 (()=>{
   const express = require('express');
-  express().use(express.static('/var/www/html')).listen(certBotPort);
+  express().use(express.static('/var/www/html')).listen(certBotPort, ()=>{ console.log('certbot is listening on:', certBotPort); });
 })();
 
 function readCerts() {
