@@ -1,4 +1,6 @@
 process.chdir(__dirname);
+process.on('unhandledRejection', console.log);
+
 const http = require('http'),
   https = require('https'),
   httpProxy = require('http-proxy'),
@@ -93,6 +95,12 @@ function setResponseHeaders(res){
   };
 }
 
+// Certbot
+
+(()=>{
+  const express = require('express');
+  express().use(express.static('/var/www/html')).listen(certBotPort);
+})();
 
 function readCerts() {
   let certs = {},
