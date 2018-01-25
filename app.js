@@ -1,6 +1,5 @@
 process.chdir(__dirname);
 process.on('unhandledRejection', console.log);
-
 const http = require('http'),
   https = require('https'),
   httpProxy = require('http-proxy'),
@@ -17,41 +16,41 @@ const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live';
 let certs = readCerts();
 
-https.createServer({
-  SNICallback: (domain, cb) => cb(
-    (certs[domain] ? null : new Error("No such cert")),
-    (certs[domain] ? certs[domain].secureContext : null)
-  ),
-  key: certs['test.majvall.se'].key,
-  cert: certs['test.majvall.se'].cert
-}, (req, res)=>{
-  setResponseHeaders(res);
+// https.createServer({
+//   SNICallback: (domain, cb) => cb(
+//     (certs[domain] ? null : new Error("No such cert")),
+//     (certs[domain] ? certs[domain].secureContext : null)
+//   ),
+//   key: certs['test.majvall.se'].key,
+//   cert: certs['test.majvall.se'].cert
+// }, (req, res)=>{
+//   setResponseHeaders(res);
 
-  let portToUse = getRouteFromJSON(req);
+//   let portToUse = getRouteFromJSON(req);
 
-  if (!portToUse) {
-    res.statusCode = 404;
-    res.end('Wrong subdomain: ' + req.headers.host);
-  }
-  else if (typeof portToUse == 'string'){
-    // proxy.web(req,res,{target: {host:'ip.addr.here',port:80}});
-    proxy.web(req, res, { target: portToUse });
-  }
-  else if (typeof portToUse == 'number'){
-    proxy.web(req, res, { target: 'http://127.0.0.1:' + portToUse });
-  }
-  else if (portToUse.redirect){
-    let url = 'https://' + portToUse.redirect + req.url;
-    res.writeHead(301, {'Location': url});
-    res.end();
-  }
-  else {
-    res.send('Error in routing');
-  }
+//   if (!portToUse) {
+//     res.statusCode = 404;
+//     res.end('Wrong subdomain: ' + req.headers.host);
+//   }
+//   else if (typeof portToUse == 'string'){
+//     // proxy.web(req,res,{target: {host:'ip.addr.here',port:80}});
+//     proxy.web(req, res, { target: portToUse });
+//   }
+//   else if (typeof portToUse == 'number'){
+//     proxy.web(req, res, { target: 'http://127.0.0.1:' + portToUse });
+//   }
+//   else if (portToUse.redirect){
+//     let url = 'https://' + portToUse.redirect + req.url;
+//     res.writeHead(301, {'Location': url});
+//     res.end();
+//   }
+//   else {
+//     res.send('Error in routing');
+//   }
 
-}).listen(443, ()=>{
-  console.log('Proxy listening on port 443');
-});
+// }).listen(443, ()=>{
+//   console.log('Proxy listening on port 443');
+// });
 
 http.createServer((req, res)=>{
   if (req.url.indexOf('/.well-known') == 0){
@@ -84,7 +83,7 @@ function getRouteFromJSON(req){
 function setResponseHeaders(res){
   const oldWriteHead = res.writeHead.bind(res);
   res.writeHead = (statusCode, headers)=>{
-    res.setHeader('x-powered-by', 'majvall');
+    res.setHeader('x-powered-by', 'botall');
     res.setHeader('strict-transport-security','max-age=31536000; includeSubDomains; preload');
     res.setHeader('x-frame-options','SAMEORIGIN');
     res.setHeader('x-xss-protection', '1');
@@ -127,6 +126,6 @@ function renewCerts(){
   });
 }
 
-renewCerts();
+// renewCerts();
 setInterval(renewCerts, 24*60*60*1000);
 // certbot certonly --webroot -w /var/www/html -d test.majvall.se
