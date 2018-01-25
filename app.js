@@ -14,7 +14,7 @@ proxy.on('error', function(e) { console.log('___Proxy error___', e); });
 
 const certBotPort = 5000;
 const certPath = '/etc/letsencrypt/live';
-let certs = readCerts();
+// let certs = readCerts();
 
 // https.createServer({
 //   SNICallback: (domain, cb) => cb(
@@ -127,5 +127,5 @@ function renewCerts(){
 }
 
 // renewCerts();
-setInterval(renewCerts, 24*60*60*1000);
+// setInterval(renewCerts, 24*60*60*1000);
 // certbot certonly --webroot -w /var/www/html -d test.majvall.se
