@@ -131,4 +131,12 @@ function renewCerts(){
 // certbot certonly --webroot -w /var/www/html -d magnets.majvall.com
 
 // Error: listen EACCES 0.0.0.0:80 (non-root may not use ports <= 1024)
-// Solution: http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root
+// Error: listen EPERM 0.0.0.0:443 (same reason)
+// Solution:
+
+// sudo touch /etc/authbind/byport/80
+// sudo chown majvall /etc/authbind/byport/80
+// sudo chmod 777 /etc/authbind/byport/80
+// sudo touch /etc/authbind/byport/443
+// sudo chown majvall /etc/authbind/byport/443
+// sudo chmod 777 /etc/authbind/byport/443
