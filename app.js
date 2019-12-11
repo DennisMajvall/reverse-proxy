@@ -105,7 +105,7 @@ function readCerts() {
   let certs = {},
       domains = fs.readdirSync(certPath);
 
-  // REAL ALL SSL CERTS INTO MEMORY FROM FILE
+  // REAL ALL TLS CERTS INTO MEMORY FROM FILE
   for (let domain of domains) {
     let domainName = domain.split('-0')[0];
     certs[domainName] = {
